@@ -63,7 +63,10 @@ export function dendronHoverPreview(this: Unified.Processor, _opts?: PluginOpts)
   const proc = this;
   function transformer(tree: Node, _file: VFile) {
     visit(tree, (node, _index, _parent) => {
-      if (RemarkUtils.isImage(node)) {
+      // On Windows, full paths don't appear to work in the hover preview but
+      // relative paths do. On other platforms (at least Linux) it's the
+      // opposite, relative paths don't work but full paths do.
+      if (process.platform !== "win32" && RemarkUtils.isImage(node)) {
         // Hover preview can't use API URL's because they are http not https, so we instead have to get the image from disk.
         return handleImage({proc, node, useFullPathUrl: true});
       }
