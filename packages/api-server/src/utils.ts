@@ -86,7 +86,7 @@ export class ServerUtils {
         }
       }
     };
-    this.onProcessExit({ subprocess, cb: handleExit });
+    ServerUtils.onProcessExit({ subprocess, cb: handleExit });
   }
 
   static prepareServerArgs() {
